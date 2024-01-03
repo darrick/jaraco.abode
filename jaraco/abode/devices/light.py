@@ -79,8 +79,8 @@ class Light(Switch):
         url = urls.INTEGRATIONS + self.uuid
 
         color_data = {
-            "action": "setcolortemperature",
-            "colorTemperature": int(color_temp),
+            'action': 'setcolortemperature',
+            'colorTemperature': int(color_temp),
         }
 
         response = self._client.send_request("post", url, data=color_data)
@@ -89,10 +89,10 @@ class Light(Switch):
         log.debug("Set Color Temp URL (post): %s", url)
         log.debug("Set Color Temp Response: %s", response.text)
 
-        if response_object["idForPanel"] != self.id:
+        if response_object['idForPanel'] != self.id:
             raise jaraco.abode.Exception(ERROR.SET_STATUS_DEV_ID)
 
-        if response_object["colorTemperature"] != int(color_temp):
+        if response_object['colorTemperature'] != int(color_temp):
             log.warning(
                 (
                     "Set color temp mismatch for device %s. "
@@ -100,12 +100,12 @@ class Light(Switch):
                 ),
                 self.id,
                 color_temp,
-                response_object["colorTemperature"],
+                response_object['colorTemperature'],
             )
 
-            color_temp = response_object["colorTemperature"]
+            color_temp = response_object['colorTemperature']
 
-        self.update({"statuses": {"color_temp": color_temp}})
+        self.update({'statuses': {'color_temp': color_temp}})
 
         log.info("Set device %s color_temp to: %s", self.id, color_temp)
 
@@ -115,9 +115,9 @@ class Light(Switch):
 
         hue, saturation = color
         color_data = {
-            "action": "setcolor",
-            "hue": int(hue),
-            "saturation": int(saturation),
+            'action': 'setcolor',
+            'hue': int(hue),
+            'saturation': int(saturation),
         }
 
         response = self._client.send_request("post", url, data=color_data)
@@ -126,7 +126,7 @@ class Light(Switch):
         log.debug("Set Color URL (post): %s", url)
         log.debug("Set Color Response: %s", response.text)
 
-        if response_object["idForPanel"] != self.id:
+        if response_object['idForPanel'] != self.id:
             raise jaraco.abode.Exception(ERROR.SET_STATUS_DEV_ID)
 
         # Abode will sometimes return hue value off by 1 (rounding error)
@@ -139,32 +139,32 @@ class Light(Switch):
                 ),
                 self.id,
                 (hue, saturation),
-                (response_object["hue"], response_object["saturation"]),
+                (response_object['hue'], response_object['saturation']),
             )
 
-            hue = response_object["hue"]
-            saturation = response_object["saturation"]
+            hue = response_object['hue']
+            saturation = response_object['saturation']
 
-        self.update({"statuses": {"hue": hue, "saturation": saturation}})
+        self.update({'statuses': {'hue': hue, 'saturation': saturation}})
 
         log.info("Set device %s color to: %s", self.id, (hue, saturation))
 
     @property
     def brightness(self):
         """Get light brightness."""
-        return self.get_value(CONST.STATUSES_KEY).get("level")
+        return self.get_value(CONST.STATUSES_KEY).get('level')
 
     @property
     def color_temp(self):
         """Get light color temp."""
-        return self.get_value('statuses').get("color_temp")
+        return self.get_value(CONST.STATUSES_KEY).get('color_temp')
 
     @property
     def color(self):
         """Get light color."""
         return (
-            self.get_value(CONST.STATUSES_KEY).get("hue"),
-            self.get_value(CONST.STATUSES_KEY).get("saturation"),
+            self.get_value(CONST.STATUSES_KEY).get('hue'),
+            self.get_value(CONST.STATUSES_KEY).get('saturation'),
         )
 
     @property
@@ -175,7 +175,7 @@ class Light(Switch):
     @property
     def has_color(self):
         """Device is using color mode."""
-        if self.get_value(CONST.STATUSES_KEY).get("color_mode") == str(
+        if self.get_value(CONST.STATUSES_KEY).get('color_mode') == str(
             CONST.COLOR_MODE_ON
         ):
             return True
