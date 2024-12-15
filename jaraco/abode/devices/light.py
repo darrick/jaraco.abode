@@ -22,7 +22,6 @@ class Light(Switch):
 
     tags = ('dimmer', 'dimmer_meter', 'hue')
 
-    def set_color_temp(self, color_temp) -> None:
     @needs_control_url
     def set_status(self, status) -> None:
         if self.type_tag != "device_type.light_bulb":
@@ -75,7 +74,7 @@ class Light(Switch):
         log.info("Set device %s level to: %s", self.id, level)
 
     @needs_control_url
-    def set_color_temp(self, color_temp):
+    def set_color_temp(self, color_temp) -> None:
         """Set device color."""
         url = urls.INTEGRATIONS + self.uuid
 
