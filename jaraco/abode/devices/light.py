@@ -22,6 +22,7 @@ class Light(Switch):
 
     tags = ('dimmer', 'dimmer_meter', 'hue')
 
+    def set_color_temp(self, color_temp) -> None:
     @needs_control_url
     def set_status(self, status) -> None:
         if self.type_tag != "device_type.light_bulb":
@@ -152,19 +153,19 @@ class Light(Switch):
     @property
     def brightness(self):
         """Get light brightness."""
-        return self.get_value(CONST.STATUSES_KEY).get('level')
+        return self.get_value('statuses').get('level')
 
     @property
     def color_temp(self):
         """Get light color temp."""
-        return self.get_value(CONST.STATUSES_KEY).get('color_temp')
+        return self.get_value('statuses').get('color_temp')
 
     @property
     def color(self):
         """Get light color."""
         return (
-            self.get_value(CONST.STATUSES_KEY).get('hue'),
-            self.get_value(CONST.STATUSES_KEY).get('saturation'),
+            self.get_value('statuses').get('hue'),
+            self.get_value('statuses').get('saturation'),
         )
 
     @property
@@ -175,11 +176,7 @@ class Light(Switch):
     @property
     def has_color(self):
         """Device is using color mode."""
-        if self.get_value(CONST.STATUSES_KEY).get('color_mode') == str(
-            CONST.COLOR_MODE_ON
-        ):
-            return True
-        return False
+        return self.get_value('statuses').get('color_mode') == str(ColorMode.on)
 
     @property
     def is_color_capable(self):
