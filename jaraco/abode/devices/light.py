@@ -20,7 +20,7 @@ class ColorMode:
 class Light(Switch):
     """Class for lights (dimmers)."""
 
-    tags = ('dimmer', 'dimmer_meter', 'hue')
+    tags = ('dimmer', 'dimmer_meter', 'hue', 'light_bulb')
 
     def set_status(self, status) -> None:
         if self.type_tag != "device_type.light_bulb":
